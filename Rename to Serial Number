@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# query serial number
+serial=$(sudo dmidecode -s system-serial-number)
+
+# query current computer name
+computer_name=$(hostname)
+
+# Check if computer name and serial number do or do not match
+if [ "$computer_name" != "$serial" ]; then
+    # Rename if not a match
+    sudo scutil --set ComputerName "$serial"
+    sudo scutil --set HostName "$serial"
+    sudo scutil --set LocalHostName "$serial"
+    echo "Computer name has been changed to $serial"
+else
+    echo "Computer name and serial number already match"
+fi
